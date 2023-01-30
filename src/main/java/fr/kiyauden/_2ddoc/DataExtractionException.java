@@ -8,7 +8,7 @@ class DataExtractionException extends Exception {
         super(message);
     }
 
-    public DataExtractionException(final String message, final Throwable cause) {
+    DataExtractionException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }
