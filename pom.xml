@@ -6,7 +6,7 @@
 
     <groupId>fr.kiyauden</groupId>
     <artifactId>2ddoc-utils</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
 
     <name>2D-Doc Utils</name>
 
@@ -14,13 +14,69 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+
+        <!-- Dependencies versions -->
+        <!-- Production -->
+        <lombok.version>1.18.24</lombok.version>
+        <slf4j-api.version>2.0.6</slf4j-api.version>
+        <commons-codec.version>1.15</commons-codec.version>
+
+        <!-- Test -->
+        <junit-jupiter.version>5.9.2</junit-jupiter.version>
+        <mockito-junit-jupiter.version>4.5.1</mockito-junit-jupiter.version>
+        <hamcrest-all.version>1.3</hamcrest-all.version>
+        <logback-classic.version>1.3.5</logback-classic.version>
+        <hamcrest-optional.version>2.0.0</hamcrest-optional.version>
     </properties>
 
     <dependencies>
+        <!-- Production dependencies -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>${commons-codec.version}</version>
+        </dependency>
+
+        <!-- Test dependencies -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.2</version>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito-junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>${hamcrest-all.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.npathai</groupId>
+            <artifactId>hamcrest-optional</artifactId>
+            <version>${hamcrest-optional.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-classic.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -39,6 +95,11 @@
                         </manifestEntries>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <!-- JUnit 5 requires Surefire version 2.22.0 or higher -->
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
             </plugin>
         </plugins>
     </build>
