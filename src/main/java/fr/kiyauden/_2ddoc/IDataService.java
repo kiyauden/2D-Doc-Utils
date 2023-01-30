@@ -3,7 +3,7 @@ package fr.kiyauden._2ddoc;
 import java.util.List;
 
 /**
- * Service those job is to extract data from the 2D-DOC
+ * Service whose job is to extract data from the 2D-DOC
  */
 interface IDataService {
 
