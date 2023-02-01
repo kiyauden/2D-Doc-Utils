@@ -30,7 +30,7 @@ class HeaderService implements IHeaderService {
      */
     @Override
     public Header parseHeader(final String header)
-            throws ParsingException, UnsupportedException, NotFoundException {
+            throws UnsupportedException, NotFoundException, HeaderExtractionException {
         log.debug("Parsing header \"{}\"", header);
 
         // Parses the identification marker
@@ -61,17 +61,24 @@ class HeaderService implements IHeaderService {
         final String certificateIdentifier = header.substring(8, 12);
         log.trace("Certificate identifier is \"{}\"", certificateIdentifier);
 
-        // Parses the emission date
-        final String emissionDateString = header.substring(12, 16);
-        log.trace("Emission HEX date is \"{}\"", emissionDateString);
-        final LocalDate emissionDate = (LocalDate) parserService.parse(emissionDateString, DATE);
-        log.trace("Parsed emission date is \"{}\"", emissionDate);
+        final LocalDate emissionDate;
+        final LocalDate signatureDate;
+        try {
+            // Parses the emission date
+            final String emissionDateString = header.substring(12, 16);
+            log.trace("Emission HEX date is \"{}\"", emissionDateString);
+            emissionDate = (LocalDate) parserService.parse(emissionDateString, DATE);
+            log.trace("Parsed emission date is \"{}\"", emissionDate);
 
-        // Parses the signature date
-        final String signatureDateString = header.substring(16, 20);
-        log.trace("Signature HEX date is \"{}\"", signatureDateString);
-        final LocalDate signatureDate = (LocalDate) parserService.parse(signatureDateString, DATE);
-        log.trace("Parsed signature date is \"{}\"", signatureDate);
+            // Parses the signature date
+            final String signatureDateString = header.substring(16, 20);
+            log.trace("Signature HEX date is \"{}\"", signatureDateString);
+            signatureDate = (LocalDate) parserService.parse(signatureDateString, DATE);
+            log.trace("Parsed signature date is \"{}\"", signatureDate);
+        } catch (final ParsingException e) {
+            log.warn("An error occurred while extracting dates the header");
+            throw new HeaderExtractionException("An error occurred while extracting dates the header", e);
+        }
 
         // Parses the document type
         final String documentTypeString = header.substring(20, 22);

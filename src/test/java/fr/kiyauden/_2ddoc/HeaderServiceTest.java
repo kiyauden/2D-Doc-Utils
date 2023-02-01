@@ -37,7 +37,8 @@ class HeaderServiceTest {
     }
 
     @Test
-    void parseHeader_forFormat02_shouldParse() throws UnsupportedException, ParsingException, NotFoundException {
+    void parseHeader_forFormat02_shouldParse()
+            throws UnsupportedException, ParsingException, NotFoundException, HeaderExtractionException {
         // Mocks parser service for the dates, since it is not the job of the HeaderService to parse the date
         when(parserServiceMock.parse(anyString(), eq(DataFormat.DATE))).thenReturn(DATE);
 
@@ -55,7 +56,8 @@ class HeaderServiceTest {
     }
 
     @Test
-    void parseHeader_forFormat03_shouldParse() throws UnsupportedException, ParsingException, NotFoundException {
+    void parseHeader_forFormat03_shouldParse()
+            throws UnsupportedException, ParsingException, NotFoundException, HeaderExtractionException {
         // Mocks parser service for the dates, since it is not the job of the HeaderService to parse the date
         when(parserServiceMock.parse(anyString(), eq(DataFormat.DATE))).thenReturn(DATE);
 
@@ -81,7 +83,8 @@ class HeaderServiceTest {
     }
 
     @Test
-    void parseHeader_forFormat04_shouldParse() throws UnsupportedException, ParsingException, NotFoundException {
+    void parseHeader_forFormat04_shouldParse()
+            throws UnsupportedException, ParsingException, NotFoundException, HeaderExtractionException {
         // Mocks parser service for the dates, since it is not the job of the HeaderService to parse the date
         when(parserServiceMock.parse(anyString(), eq(DataFormat.DATE))).thenReturn(DATE);
 
@@ -140,7 +143,7 @@ class HeaderServiceTest {
 
         final String headerString = "DC04FR0AXT4A0E840E8A0101FR";
 
-        assertThrows(ParsingException.class, () -> headerService.parseHeader(headerString));
+        assertThrows(HeaderExtractionException.class, () -> headerService.parseHeader(headerString));
     }
 
 }

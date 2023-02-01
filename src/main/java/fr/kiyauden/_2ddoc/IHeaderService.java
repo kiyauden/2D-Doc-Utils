@@ -10,10 +10,11 @@ interface IHeaderService {
      *
      * @param header the string representation of the 2D-DOC header
      * @return the parsed header
-     * @throws ParsingException     when an error occurs while parsing the header
-     * @throws UnsupportedException when the 2D-DOC version was recognized but not supported
-     * @throws NotFoundException    when the header format does not look like a 2D-DOC header
+     * @throws UnsupportedException      when the 2D-DOC version was recognized but not supported
+     * @throws NotFoundException         when the header format does not look like a 2D-DOC header
+     * @throws HeaderExtractionException when something went wrong while extraction information from the header
      */
-    Header parseHeader(final String header) throws ParsingException, UnsupportedException, NotFoundException;
+    Header parseHeader(final String header)
+            throws UnsupportedException, NotFoundException, HeaderExtractionException;
 
 }
