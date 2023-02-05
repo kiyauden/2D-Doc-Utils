@@ -6,7 +6,7 @@
 
     <groupId>fr.kiyauden</groupId>
     <artifactId>2ddoc-utils</artifactId>
-    <version>0.0.3-SNAPSHOT</version>
+    <version>0.0.4-SNAPSHOT</version>
 
     <name>2D-Doc Utils</name>
 
@@ -20,6 +20,7 @@
         <lombok.version>1.18.24</lombok.version>
         <slf4j-api.version>2.0.6</slf4j-api.version>
         <commons-codec.version>1.15</commons-codec.version>
+        <bouncycastle.version>1.70</bouncycastle.version>
 
         <!-- Test -->
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
@@ -47,6 +48,11 @@
             <artifactId>commons-codec</artifactId>
             <version>${commons-codec.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>${bouncycastle.version}</version>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -59,6 +65,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
             <version>${mockito-junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <version>5.1.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
