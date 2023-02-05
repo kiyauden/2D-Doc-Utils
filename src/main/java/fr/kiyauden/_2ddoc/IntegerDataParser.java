@@ -11,7 +11,7 @@ import static java.lang.Integer.parseInt;
  * The {@link String} input will be parsed to an {@link Integer}
  */
 @Slf4j
-class IntegerParser implements Parser<Integer> {
+class IntegerDataParser implements DataParser<Integer> {
 
     /**
      * {@inheritDoc}

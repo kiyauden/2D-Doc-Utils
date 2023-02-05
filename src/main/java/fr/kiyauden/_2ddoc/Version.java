@@ -15,15 +15,21 @@ import static lombok.AccessLevel.PRIVATE;
  * Enum representing the 2D-DOC versions
  */
 public enum Version {
-    VERSION_02("02"),
-    VERSION_03("03"),
-    VERSION_04("04");
+    VERSION_02("02", 22),
+    VERSION_03("03", 24),
+    VERSION_04("04", 26);
 
     /**
      * String representation of the version
      */
     @Getter(PRIVATE)
     private final String versionString;
+
+    /**
+     * The length of the header
+     */
+    @Getter
+    private final int headerLength;
 
     /**
      * Map used to find a version by its ID
@@ -34,8 +40,9 @@ public enum Version {
         BY_VERSION = stream(Version.values()).collect(toMap(Version::getVersionString, identity()));
     }
 
-    Version(final String versionString) {
+    Version(final String versionString, final int headerLength) {
         this.versionString = versionString;
+        this.headerLength = headerLength;
     }
 
     /**

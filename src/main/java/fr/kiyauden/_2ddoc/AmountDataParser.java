@@ -15,7 +15,7 @@ import static fr.kiyauden._2ddoc.DataFormat.AMOUNT;
  * The {@link String} input data will be parsed as a {@link Double}
  */
 @Slf4j
-class AmountParser implements Parser<Double> {
+class AmountDataParser implements DataParser<Double> {
 
     /**
      * The {@link DecimalFormat} format parser used to parse the amounts
