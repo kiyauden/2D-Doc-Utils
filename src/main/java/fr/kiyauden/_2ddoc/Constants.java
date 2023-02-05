@@ -15,7 +15,7 @@ class Constants {
      * <p>
      * Decimal 29, Hexadecimal 1D
      * <p>
-     * Used to indicate the end of a variable length data
+     * Used to indicate the end of a variable length data or the separation between the signature and the annex
      */
     static final char GS = 0x1D;
 

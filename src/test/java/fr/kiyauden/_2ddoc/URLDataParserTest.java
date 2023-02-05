@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import static fr.kiyauden._2ddoc.DataFormat.URL;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class URLParserTest {
+class URLDataParserTest {
 
-    private URLParser parser;
+    private URLDataParser parser;
 
     @BeforeEach
     void beforeEach() {
-        parser = new URLParser();
+        parser = new URLDataParser();
     }
 
     @Test

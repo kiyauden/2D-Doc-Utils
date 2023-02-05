@@ -7,13 +7,13 @@ import static fr.kiyauden._2ddoc.DataFormat.BOOLEAN;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class BooleanParserTest {
+class BooleanDataParserTest {
 
-    private BooleanParser parser;
+    private BooleanDataParser parser;
 
     @BeforeEach
     void beforeEach() {
-        parser = new BooleanParser();
+        parser = new BooleanDataParser();
     }
 
     @Test

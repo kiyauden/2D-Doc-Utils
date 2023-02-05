@@ -12,7 +12,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
  * The {@link String} input data will be parsed as a {@link String} corresponding to an url
  */
 @Slf4j
-class URLParser implements Parser<String> {
+class URLDataParser implements DataParser<String> {
 
     /**
      * {@inheritDoc}

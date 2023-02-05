@@ -13,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class DateParserTest {
+class DateDataParserTest {
 
-    private DateParser parser;
+    private DateDataParser parser;
 
     @BeforeEach
     void beforeEach() {
-        parser = new DateParser();
+        parser = new DateDataParser();
     }
 
     @Test

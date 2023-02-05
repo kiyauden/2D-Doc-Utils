@@ -6,6 +6,8 @@ import lombok.Value;
 import java.time.LocalDate;
 
 import static fr.kiyauden._2ddoc.Version.VERSION_02;
+import static fr.kiyauden._2ddoc.Version.VERSION_03;
+import static fr.kiyauden._2ddoc.Version.VERSION_04;
 import static lombok.AccessLevel.PRIVATE;
 
 @Value
@@ -133,7 +135,7 @@ public class Header {
                               final LocalDate emissionDate, final LocalDate signatureDate,
                               final Document documentType, final String perimeterId) {
         return Header.builder()
-                .version(VERSION_02)
+                .version(VERSION_03)
                 .certificationAuthorityId(certificationAuthorityId)
                 .certificateId(certificateId)
                 .emissionDate(emissionDate)
@@ -159,7 +161,7 @@ public class Header {
                               final LocalDate emissionDate, final LocalDate signatureDate,
                               final Document documentType, final String perimeterId, final String issuingCountry) {
         return Header.builder()
-                .version(VERSION_02)
+                .version(VERSION_04)
                 .certificationAuthorityId(certificationAuthorityId)
                 .certificateId(certificateId)
                 .emissionDate(emissionDate)

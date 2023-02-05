@@ -11,7 +11,7 @@ import static java.lang.String.format;
  * The {@link String} input data will be parsed as a {@link Boolean}
  */
 @Slf4j
-class BooleanParser implements Parser<Boolean> {
+class BooleanDataParser implements DataParser<Boolean> {
 
     /**
      * {@inheritDoc}

@@ -6,13 +6,13 @@ import org.junit.jupiter.api.Test;
 import static fr.kiyauden._2ddoc.DataFormat.INTEGER;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class IntegerParserTest {
+class IntegerDataParserTest {
 
-    private IntegerParser parser;
+    private IntegerDataParser parser;
 
     @BeforeEach
     void beforeEach() {
-        parser = new IntegerParser();
+        parser = new IntegerDataParser();
     }
 
     @Test

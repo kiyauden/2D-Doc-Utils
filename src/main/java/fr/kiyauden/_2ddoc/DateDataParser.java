@@ -25,7 +25,7 @@ import static java.util.regex.Pattern.compile;
  * The {@link String} input will be parsed to an {@link java.time.LocalDate}
  */
 @Slf4j
-class DateParser implements Parser<LocalDate> {
+class DateDataParser implements DataParser<LocalDate> {
 
     /**
      * The regex to determine if the date to parse if a HEX date
@@ -74,7 +74,7 @@ class DateParser implements Parser<LocalDate> {
     /**
      * Handles a HEX date format
      * <p>
-     * The hexDate corresponds to the number of days to add from the January 1, 2000 {@link DateParser#BASE_DATE}
+     * The hexDate corresponds to the number of days to add from the January 1, 2000 {@link DateDataParser#BASE_DATE}
      * to get the encoded date
      * <p>
      * Example : 111E HEX date means 4382 elapsed days since January 1, 2000. The encoded date is December 31, 2011
@@ -93,11 +93,11 @@ class DateParser implements Parser<LocalDate> {
     }
 
     /**
-     * Parses the input date string using the formatters declared in {@link DateParser#FORMATTERS}
+     * Parses the input date string using the formatters declared in {@link DateDataParser#FORMATTERS}
      *
      * @param dateString the date string to parse
      * @return a new {@link LocalDate} instance corresponding to the input date string
-     * @throws ParsingException if no {@link DateParser#FORMATTERS} could parse the input data string
+     * @throws ParsingException if no {@link DateDataParser#FORMATTERS} could parse the input data string
      */
     private LocalDate handleOtherFormats(final String dateString) throws ParsingException {
         for (final DateFormater formatter : FORMATTERS) {

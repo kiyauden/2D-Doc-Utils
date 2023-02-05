@@ -19,43 +19,43 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ParserServiceTest {
+class DataParserServiceTest {
 
     @Mock
-    private Parser<String> stringParser;
+    private DataParser<String> stringDataParser;
     @Mock
-    private Parser<Integer> integerParser;
+    private DataParser<Integer> integerDataParser;
     private IParserService parserService;
 
 
     @BeforeEach
     void beforeEach() {
-        when(stringParser.getHandledFormat()).thenReturn(TEXT);
-        when(integerParser.getHandledFormat()).thenReturn(INTEGER);
+        when(stringDataParser.getHandledFormat()).thenReturn(TEXT);
+        when(integerDataParser.getHandledFormat()).thenReturn(INTEGER);
 
-        parserService = new ParserService(new HashSet<>(asList(stringParser, integerParser)));
+        parserService = new ParserService(new HashSet<>(asList(stringDataParser, integerDataParser)));
     }
 
     @Test
     void parse_whenDataTEXT_shouldUseTheCorrectParser() throws ParsingException {
         parserService.parse("DATA", TEXT);
 
-        verify(stringParser, times(1)).parse("DATA");
-        verify(integerParser, never()).parse("DATA");
+        verify(stringDataParser, times(1)).parse("DATA");
+        verify(integerDataParser, never()).parse("DATA");
     }
 
     @Test
     void parse_whenDataINTEGER_shouldUseTheCorrectParser() throws ParsingException {
         parserService.parse("DATA", INTEGER);
 
-        verify(stringParser, never()).parse("DATA");
-        verify(integerParser, times(1)).parse("DATA");
+        verify(stringDataParser, never()).parse("DATA");
+        verify(integerDataParser, times(1)).parse("DATA");
     }
 
     @Test
     void parse_whenParsingFails_shouldThrowException() throws ParsingException {
         // Simulates a parsing fail
-        when(integerParser.parse("DATA")).thenThrow(NumberFormatException.class);
+        when(integerDataParser.parse("DATA")).thenThrow(NumberFormatException.class);
 
         assertThrows(ParsingException.class, () -> parserService.parse("DATA", INTEGER));
     }

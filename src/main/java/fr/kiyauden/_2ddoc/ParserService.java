@@ -16,14 +16,14 @@ import static java.util.stream.Collectors.toMap;
 class ParserService implements IParserService {
 
     /**
-     * Map used to retrieve the {@link Parser} with its handled {@link DataFormat}
+     * Map used to retrieve the {@link DataParser} with its handled {@link DataFormat}
      */
-    private final Map<DataFormat, Parser<?>> dataFormatParserMap;
+    private final Map<DataFormat, DataParser<?>> dataFormatParserMap;
 
-    ParserService(final Set<Parser<?>> parsers) {
+    ParserService(final Set<DataParser<?>> dataParsers) {
         // Initialises the dataFormatParserMap
-        dataFormatParserMap = parsers.stream()
-                .collect(toMap(Parser::getHandledFormat,
+        dataFormatParserMap = dataParsers.stream()
+                .collect(toMap(DataParser::getHandledFormat,
                                parser -> parser,
                                (parser, parser2) -> parser2,
                                () -> new EnumMap<>(DataFormat.class))
@@ -37,12 +37,12 @@ class ParserService implements IParserService {
     public Object parse(final String value, final DataFormat dataFormat) throws ParsingException {
         log.debug("Parsing value \"{}\" of type {}", value, dataFormat);
         try {
-            final Parser<?> parser = dataFormatParserMap.get(dataFormat);
-            if (parser == null) {
+            final DataParser<?> dataParser = dataFormatParserMap.get(dataFormat);
+            if (dataParser == null) {
                 log.warn("No parser found for data format \"{}\"", dataFormat);
                 throw new ParsingException(format("No parser found for data format \"%s\"", dataFormat));
             }
-            final Object parsed = parser.parse(value);
+            final Object parsed = dataParser.parse(value);
             log.debug("Parsing value \"{}\" of type {} parsed as \"{}\"", value, dataFormat, parsed);
             return parsed;
         } catch (final Exception e) {

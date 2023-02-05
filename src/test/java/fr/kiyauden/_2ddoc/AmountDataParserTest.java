@@ -7,13 +7,13 @@ import static fr.kiyauden._2ddoc.DataFormat.AMOUNT;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class AmountParserTest {
+class AmountDataParserTest {
 
-    private AmountParser parser;
+    private AmountDataParser parser;
 
     @BeforeEach
     void beforeEach() {
-        parser = new AmountParser();
+        parser = new AmountDataParser();
     }
 
     @Test

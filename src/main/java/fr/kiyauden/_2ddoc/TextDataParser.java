@@ -10,7 +10,7 @@ import static fr.kiyauden._2ddoc.DataFormat.TEXT;
  * The {@link String} input data will be returned as is
  */
 @Slf4j
-class TextParser implements Parser<String> {
+class TextDataParser implements DataParser<String> {
 
     /**
      * {@inheritDoc}
