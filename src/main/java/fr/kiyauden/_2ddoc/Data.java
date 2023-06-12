@@ -1,10 +1,13 @@
 package fr.kiyauden._2ddoc;
 
+import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 import java.util.Optional;
 
+import static java.util.Optional.ofNullable;
 import static lombok.AccessLevel.PACKAGE;
 
 /**
@@ -23,12 +26,17 @@ public class Data {
     /**
      * The value of the data
      * <p>
-     * Can be optional empty when only the identifier is present, the specification allows a min size of 0 so no data
+     * Can be null when only the identifier is present, the specification allows a min size of 0 so no data
      * <p>
      * Should probably not happen, but it is allowed
      */
-    @SuppressWarnings("OptionalUsedAsFieldOrParameterType")
-    Optional<Object> value;
+    @Getter(AccessLevel.NONE)
+    Object value;
+    /**
+     * The string representation of the data as present inside the 2D-DOC
+     */
+    // TODO: 30/05/2023 ajouter ça
+    String stringValue;
     /**
      * The source of the data
      */
@@ -46,5 +54,12 @@ public class Data {
      * TRUE is the data is truncated, FALSE otherwise
      */
     boolean truncated;
+
+    /**
+     * @return the value object of the data, wrapped in an {@link Optional}
+     */
+    public Optional<Object> getValue() {
+        return ofNullable(value);
+    }
 
 }

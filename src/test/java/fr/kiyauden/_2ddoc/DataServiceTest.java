@@ -20,9 +20,8 @@ import static fr.kiyauden._2ddoc.DataType.DOCUMENT_CATEGORY;
 import static fr.kiyauden._2ddoc.DataType.DOCUMENT_SUB_CATEGORY;
 import static fr.kiyauden._2ddoc.DataType.INVOICE_AMOUNT_INCLUDING_TAX;
 import static fr.kiyauden._2ddoc.DataType.INVOICE_NUMBER;
-import static fr.kiyauden._2ddoc.Document.DOCUMENT_01;
+import static fr.kiyauden._2ddoc.Document.DOC_01;
 import static java.util.Arrays.asList;
-import static java.util.Optional.ofNullable;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -50,7 +49,7 @@ class DataServiceTest {
         // Mocks the parser, so it returns the data read from the 2D-Doc as string,
         // since it not the job of this test to check if the parsing is correct
         when(parserService.parse(anyString(), any(DataFormat.class))).thenAnswer(i -> i.getArguments()[0]);
-        when(documentService.isDataMandatory(eq(DOCUMENT_01), any())).thenReturn(false);
+        when(documentService.isDataMandatory(eq(DOC_01), any())).thenReturn(false);
     }
 
     @Test
@@ -70,8 +69,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
     @Test
@@ -99,15 +98,15 @@ class DataServiceTest {
             Collections.shuffle(baseData);
             final String dataFrom2dDoc = String.join("", baseData);
 
-            final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-            assertThat(data, containsInAnyOrder(expectedData.toArray()));
+            final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+            assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
         }
     }
 
     @Test
     void extractData_whenDataIsMandatory_shouldMarkAsMandatory() throws DataExtractionException {
         // Sets BENEFIT_SERVICE_POINT_COUNTRY as mandatory
-        when(documentService.isDataMandatory(DOCUMENT_01, BENEFIT_SERVICE_POINT_COUNTRY)).thenReturn(true);
+        when(documentService.isDataMandatory(DOC_01, BENEFIT_SERVICE_POINT_COUNTRY)).thenReturn(true);
 
         final String dataFrom2dDoc = "26FR247500010MME/NATACHA/SPECIMEN\u001D221 RUE DE LA RUE\u001D1812345678910112\u001D02FACTURE FNB\u001D03GP\u001D1D9,99\u001D19575645792\u001D07195113";
         final List<Data> expectedData = asList(
@@ -125,8 +124,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
     @Test
@@ -147,8 +146,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
     @Test
@@ -169,8 +168,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
     @Test
@@ -192,8 +191,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
     @Test
@@ -202,7 +201,7 @@ class DataServiceTest {
         final String dataFrom2dDoc = "26FR247500010MME/NATACHA/SPECIMEN\u001D221 RUE DE LA RUEEEEEEEEEEEEEEEEEEEEEEEEE\u001D1812345678910112\u001D02FACTURE FNB\u001D03GP\u001D1D9,99\u001D19575645792\u001D07195113";
 
         assertThrows(DataExtractionException.class,
-                     () -> service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE));
+                     () -> service.extractData(dataFrom2dDoc, DOC_01, MESSAGE));
     }
 
     @Test
@@ -224,8 +223,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
 
@@ -239,7 +238,7 @@ class DataServiceTest {
         final String dataFrom2dDoc = "EEFR247500010MME/NATACHA/SPECIMEN\u001D";
 
         assertThrows(DataExtractionException.class,
-                     () -> service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE));
+                     () -> service.extractData(dataFrom2dDoc, DOC_01, MESSAGE));
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -266,8 +265,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
     @Test
@@ -289,8 +288,8 @@ class DataServiceTest {
                 buildExpectedDataFromMessageSegment(DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC, false, "195113")
         );
 
-        final List<Data> data = service.extractData(dataFrom2dDoc, DOCUMENT_01, MESSAGE);
-        assertThat(data, containsInAnyOrder(expectedData.toArray()));
+        final ExtractedData data = service.extractData(dataFrom2dDoc, DOC_01, MESSAGE);
+        assertThat(data.getData(), containsInAnyOrder(expectedData.toArray()));
     }
 
     //------------------------------------------------------------------------------------------------------------------
@@ -305,8 +304,7 @@ class DataServiceTest {
                 .mandatory(mandatory)
                 .truncated(truncated)
                 .source(MESSAGE)
-                // ofNullable here so if the value provided is null it will create an empty optional
-                .value(ofNullable(value))
+                .value(value)
                 .build();
     }
 

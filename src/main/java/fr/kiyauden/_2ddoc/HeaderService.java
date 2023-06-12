@@ -1,5 +1,7 @@
 package fr.kiyauden._2ddoc;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -20,7 +22,8 @@ import static java.lang.String.format;
  * Implementation of {@link IHeaderService}
  */
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@Singleton
 class HeaderService implements IHeaderService {
 
     private final IParserService parserService;
@@ -46,12 +49,13 @@ class HeaderService implements IHeaderService {
         log.trace("Version is \"{}\"", versionString);
         if ("01".equals(versionString)) {
             log.warn("Version 01 is deprecated by the ANTS and is not supported by this library");
-            throw new UnsupportedException("Version 01 is deprecated by the ANTS and is not supported by this library");
+            throw new UnsupportedVersionException(
+                    "Version 01 is deprecated by the ANTS and is not supported by this library");
         }
         final Optional<Version> versionOptional = findByVersionString(versionString);
         if (!versionOptional.isPresent()) {
             log.warn("Version \"{}\" is not supported", versionString);
-            throw new UnsupportedException(format("Version \"%s\" is not supported", versionString));
+            throw new UnsupportedVersionException(format("Version \"%s\" is not supported", versionString));
         }
 
         // Extracts the certification authority
@@ -86,7 +90,7 @@ class HeaderService implements IHeaderService {
         final Optional<Document> documentOptional = Document.findById(documentTypeString);
         if (!documentOptional.isPresent()) {
             log.warn("Document type \"{}\" is not supported", documentTypeString);
-            throw new UnsupportedException(format("Document type \"%s\" is not supported", documentTypeString));
+            throw new UnsupportedDocumentException(format("Document type \"%s\" is not supported", documentTypeString));
         }
         final Document document = documentOptional.get();
         log.trace("Parsed document type is \"{}\"", document);

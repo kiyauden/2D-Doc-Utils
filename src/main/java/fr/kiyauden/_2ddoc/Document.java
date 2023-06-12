@@ -1,8 +1,8 @@
 package fr.kiyauden._2ddoc;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -49,18 +49,16 @@ import static fr.kiyauden._2ddoc.DataType.UNMENTIONED_CO_BENEFICIARY_PRESENCE;
 import static fr.kiyauden._2ddoc.DataType.UNMENTIONED_CO_INVOICE_RECIPIENT_PRESENCE;
 import static java.util.Arrays.asList;
 import static java.util.Arrays.stream;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static java.util.stream.Stream.concat;
-import static java.util.stream.Stream.of;
 
 /**
  * The 2D-DOC documents types supported by the library
  */
-@RequiredArgsConstructor
 public enum Document {
 
     /**
@@ -72,57 +70,72 @@ public enum Document {
      * <p>
      * Type for emitter : Factures de fournisseur d'énergie | Factures de téléphonie | Factures de fournisseur d'accès internet | Factures de fournisseur d'eau
      */
-    DOCUMENT_01("01",
-                true,
-                unmodifiableList(asList(
-                        BENEFICIARY_ADDRESS_LINE_1,
-                        BENEFICIARY_QUALITY_AND_OR_TITLE,
-                        BENEFICIARY_FIRSTNAME,
-                        BENEFICIARY_LASTNAME,
-                        BENEFIT_SERVICE_POINT_ADDRESS_LINE_4,
-                        BENEFIT_SERVICE_POINT_POSTAL_OR_CEDEX_CODE,
-                        BENEFIT_SERVICE_POINT_COUNTRY
-                )),
-                unmodifiableList(
-                        concat(
-                                of(INVOICE_RECIPIENT_ADDRESS_LINE_1,
-                                   INVOICE_RECIPIENT_QUALITY_AND_OR_TITLE,
-                                   INVOICE_RECIPIENT_FIRSTNAME,
-                                   INVOICE_RECIPIENT_LASTNAME,
-                                   INVOICE_NUMBER,
-                                   CLIENT_NUMBER,
-                                   CONTRACT_NUMBER,
-                                   SUBSCRIBER_IDENTIFIER,
-                                   CONTRACT_EFFECTIVE_DATE,
-                                   INVOICE_AMOUNT_INCLUDING_TAX,
-                                   BENEFICIARY_PHONE_NUMBER,
-                                   INVOICE_RECIPIENT_PHONE_NUMBER,
-                                   UNMENTIONED_CO_BENEFICIARY_PRESENCE,
-                                   UNMENTIONED_CO_INVOICE_RECIPIENT_PRESENCE,
-                                   CO_BENEFICIARY_RECIPIENT_ADDRESS_LINE_1,
-                                   CO_BENEFICIARY_QUALITY_AND_OR_TITLE,
-                                   CO_BENEFICIARY_FIRSTNAME,
-                                   CO_BENEFICIARY_LASTNAME,
-                                   CO_INVOICE_RECIPIENT_ADDRESS_LINE_1,
-                                   CO_INVOICE_RECIPIENT_QUALITY_AND_OR_TITLE,
-                                   CO_INVOICE_RECIPIENT_FIRSTNAME,
-                                   CO_INVOICE_RECIPIENT_LASTNAME,
-                                   BENEFIT_SERVICE_POINT_ADDRESS_LINE_2,
-                                   BENEFIT_SERVICE_POINT_ADDRESS_LINE_3,
-                                   BENEFIT_SERVICE_POINT_ADDRESS_LINE_5,
-                                   BENEFIT_SERVICE_POINT_LOCALITY_OR_CEDEX_LABEL,
-                                   INVOICE_RECIPIENT_ADDRESS_LINE_2,
-                                   INVOICE_RECIPIENT_ADDRESS_LINE_3,
-                                   INVOICE_RECIPIENT_ADDRESS_LINE_4,
-                                   INVOICE_RECIPIENT_ADDRESS_LINE_5,
-                                   INVOICE_RECIPIENT_POSTAL_OR_CEDEX_CODE,
-                                   INVOICE_RECIPIENT_LOCALITY_OR_CEDEX_LABEL,
-                                   INVOICE_RECIPIENT_COUNTRY
-                                ), DataType.getComplementaryDataTypes().stream())
-                                .collect(toList())),
-                "Justificatif de domicile",
-                "Factures de fournisseur d'énergie | Factures de téléphonie | Factures de fournisseur d'accès internet | Factures de fournisseur d'eau"
+    DOC_01("01",
+           true,
+           asList(
+                   new DatatypeDefinition(BENEFICIARY_ADDRESS_LINE_1,
+                                          asList(BENEFICIARY_QUALITY_AND_OR_TITLE, BENEFICIARY_FIRSTNAME,
+                                                 BENEFICIARY_LASTNAME)),
+                   new DatatypeDefinition(BENEFICIARY_QUALITY_AND_OR_TITLE,
+                                          singletonList(BENEFICIARY_ADDRESS_LINE_1)),
+                   new DatatypeDefinition(BENEFICIARY_FIRSTNAME, singletonList(BENEFICIARY_ADDRESS_LINE_1)),
+                   new DatatypeDefinition(BENEFICIARY_LASTNAME, singletonList(BENEFICIARY_ADDRESS_LINE_1)),
+                   new DatatypeDefinition(BENEFIT_SERVICE_POINT_ADDRESS_LINE_4),
+                   new DatatypeDefinition(BENEFIT_SERVICE_POINT_POSTAL_OR_CEDEX_CODE),
+                   new DatatypeDefinition(BENEFIT_SERVICE_POINT_COUNTRY)
+           ),
+           asList(INVOICE_RECIPIENT_ADDRESS_LINE_1,
+                  INVOICE_RECIPIENT_QUALITY_AND_OR_TITLE,
+                  INVOICE_RECIPIENT_FIRSTNAME,
+                  INVOICE_RECIPIENT_LASTNAME,
+                  INVOICE_NUMBER,
+                  CLIENT_NUMBER,
+                  CONTRACT_NUMBER,
+                  SUBSCRIBER_IDENTIFIER,
+                  CONTRACT_EFFECTIVE_DATE,
+                  INVOICE_AMOUNT_INCLUDING_TAX,
+                  BENEFICIARY_PHONE_NUMBER,
+                  INVOICE_RECIPIENT_PHONE_NUMBER,
+                  UNMENTIONED_CO_BENEFICIARY_PRESENCE,
+                  UNMENTIONED_CO_INVOICE_RECIPIENT_PRESENCE,
+                  CO_BENEFICIARY_RECIPIENT_ADDRESS_LINE_1,
+                  CO_BENEFICIARY_QUALITY_AND_OR_TITLE,
+                  CO_BENEFICIARY_FIRSTNAME,
+                  CO_BENEFICIARY_LASTNAME,
+                  CO_INVOICE_RECIPIENT_ADDRESS_LINE_1,
+                  CO_INVOICE_RECIPIENT_QUALITY_AND_OR_TITLE,
+                  CO_INVOICE_RECIPIENT_FIRSTNAME,
+                  CO_INVOICE_RECIPIENT_LASTNAME,
+                  BENEFIT_SERVICE_POINT_ADDRESS_LINE_2,
+                  BENEFIT_SERVICE_POINT_ADDRESS_LINE_3,
+                  BENEFIT_SERVICE_POINT_ADDRESS_LINE_5,
+                  BENEFIT_SERVICE_POINT_LOCALITY_OR_CEDEX_LABEL,
+                  INVOICE_RECIPIENT_ADDRESS_LINE_2,
+                  INVOICE_RECIPIENT_ADDRESS_LINE_3,
+                  INVOICE_RECIPIENT_ADDRESS_LINE_4,
+                  INVOICE_RECIPIENT_ADDRESS_LINE_5,
+                  INVOICE_RECIPIENT_POSTAL_OR_CEDEX_CODE,
+                  INVOICE_RECIPIENT_LOCALITY_OR_CEDEX_LABEL,
+                  INVOICE_RECIPIENT_COUNTRY
+           ),
+           "Justificatif de domicile",
+           "Factures de fournisseur d'énergie | Factures de téléphonie | Factures de fournisseur d'accès internet | Factures de fournisseur d'eau"
     );
+
+    Document(final String id, final boolean emissionDateMandatory, final List<DatatypeDefinition> mandatoryData,
+             final List<DataType> optionalData, final String typeForUser, final String typeForTransmitter) {
+        this.id = id;
+        this.emissionDateMandatory = emissionDateMandatory;
+        this.mandatoryData = unmodifiableList(mandatoryData);
+
+        final ArrayList<DataType> allOptionalDataType = new ArrayList<>();
+        allOptionalDataType.addAll(DataType.getComplementaryDataTypes());
+        allOptionalDataType.addAll(optionalData);
+        this.optionalData = unmodifiableList(allOptionalDataType);
+
+        this.typeForUser = typeForUser;
+        this.typeForTransmitter = typeForTransmitter;
+    }
 
     /**
      * Map used to find a document type by its ID
@@ -149,7 +162,7 @@ public enum Document {
      * This list is immutable
      */
     @Getter
-    private final List<DataType> mandatoryData;
+    private final List<DatatypeDefinition> mandatoryData;
     /**
      * A list containing the optional data types for a document type
      * <p>
@@ -176,6 +189,27 @@ public enum Document {
      */
     public static Optional<Document> findById(final String id) {
         return ofNullable(BY_ID.get(id));
+    }
+
+    /**
+     * Definition of a mandatory data
+     */
+    static class DatatypeDefinition {
+        @Getter
+        private final DataType dataType;
+
+        @Getter
+        private final List<DataType> interchangeableDataType;
+
+        public DatatypeDefinition(final DataType dataType, final List<DataType> interchangeableDataType) {
+            this.dataType = dataType;
+            this.interchangeableDataType = interchangeableDataType;
+        }
+
+        public DatatypeDefinition(final DataType dataType) {
+            this.dataType = dataType;
+            interchangeableDataType = emptyList();
+        }
     }
 
 }

@@ -14,6 +14,7 @@ import static fr.kiyauden._2ddoc.DataFormat.INTEGER;
 import static fr.kiyauden._2ddoc.DataFormat.TEXT;
 import static fr.kiyauden._2ddoc.DataFormat.TIME;
 import static fr.kiyauden._2ddoc.DataFormat.URL;
+import static java.lang.String.format;
 import static java.util.Arrays.stream;
 import static java.util.Optional.ofNullable;
 import static java.util.function.Function.identity;
@@ -28,36 +29,55 @@ public enum DataType {
     //------------------------------------------------------------------------------------------------------------------
     // 2D-Doc complementary data, used as optional data for most documents
     //------------------------------------------------------------------------------------------------------------------
+
+    /**
+     * ID : 01
+     */
     DOCUMENT_UNIQUE_ID(
             "01",
             "Identifiant unique du document",
             TEXT,
             0
     ),
+    /**
+     * ID : 02
+     */
     DOCUMENT_CATEGORY(
             "02",
             "Catégorie de document",
             TEXT,
             0
     ),
+    /**
+     * ID : 03
+     */
     DOCUMENT_SUB_CATEGORY(
             "03",
             "Sous-catégorie de document",
             TEXT,
             0
     ),
+    /**
+     * ID : 04
+     */
     ISSUING_APPLICATION(
             "04",
             "Application de composition",
             TEXT,
             0
     ),
+    /**
+     * ID : 05
+     */
     ISSUING_APPLICATION_VERSION(
             "05",
             "Version de l’application de composition",
             TEXT,
             0
     ),
+    /**
+     * ID : 06
+     */
     DOCUMENT_ASSOCIATION_DATE_WITH_2DDOC(
             "06",
             "Date de l’association entre le document et le code 2D-DOC",
@@ -65,6 +85,9 @@ public enum DataType {
             4,
             4
     ),
+    /**
+     * ID : 07
+     */
     DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC(
             "07",
             "Heure de l’association entre le document et le code 2D-DOC",
@@ -72,6 +95,9 @@ public enum DataType {
             6,
             6
     ),
+    /**
+     * ID : 08
+     */
     DOCUMENT_EXPIRY_DATE(
             "08",
             "Date d’expiration du document",
@@ -79,6 +105,9 @@ public enum DataType {
             4,
             4
     ),
+    /**
+     * ID : 09
+     */
     DOCUMENT_NUMBER_OF_PAGES(
             "09",
             "Nombre de pages du document",
@@ -86,6 +115,9 @@ public enum DataType {
             4,
             4
     ),
+    /**
+     * ID : 0A
+     */
     EDITOR_OF_2DDOC(
             "0A",
             "Éditeur du 2D-DOC",
@@ -93,6 +125,9 @@ public enum DataType {
             9,
             9
     ),
+    /**
+     * ID : 08C
+     */
     DOCUMENT_URL(
             "0C",
             "URL du document",
@@ -103,6 +138,9 @@ public enum DataType {
     // Data for "Justificatif de domicile" documents
     // Documents 00 - 01 - 02
     //------------------------------------------------------------------------------------------------------------------
+    /**
+     * ID : 10
+     */
     BENEFICIARY_ADDRESS_LINE_1(
             "10",
             "Ligne 1 de la norme adresse postale du bénéficiaire de la prestation",
@@ -110,6 +148,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 11
+     */
     BENEFICIARY_QUALITY_AND_OR_TITLE(
             "11",
             "Qualité et/ou titre de la personne bénéficiaire de la prestation",
@@ -117,6 +158,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 12
+     */
     BENEFICIARY_FIRSTNAME(
             "12",
             "Prénom de la personne bénéficiaire de la prestation",
@@ -124,6 +168,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 13
+     */
     BENEFICIARY_LASTNAME(
             "13",
             "Nom de la personne bénéficiaire de la prestation",
@@ -131,6 +178,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 14
+     */
     INVOICE_RECIPIENT_ADDRESS_LINE_1(
             "14",
             "Ligne 1 de la norme adresse postale du destinataire de la facture",
@@ -138,6 +188,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 15
+     */
     INVOICE_RECIPIENT_QUALITY_AND_OR_TITLE(
             "15",
             "Qualité et/ou titre de la personne destinataire de la facture",
@@ -145,6 +198,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 16
+     */
     INVOICE_RECIPIENT_FIRSTNAME(
             "16",
             "Prénom de la personne destinataire de la facture",
@@ -152,6 +208,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 17
+     */
     INVOICE_RECIPIENT_LASTNAME(
             "17",
             "Nom de la personne destinataire de la facture",
@@ -159,30 +218,45 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 18
+     */
     INVOICE_NUMBER(
             "18",
             "Numéro de la facture",
             TEXT,
             0
     ),
+    /**
+     * ID : 19
+     */
     CLIENT_NUMBER(
             "19",
             "Numéro de client",
             TEXT,
             0
     ),
+    /**
+     * ID : 1A
+     */
     CONTRACT_NUMBER(
             "1A",
             "Numéro du contrat",
             TEXT,
             0
     ),
+    /**
+     * ID : 1B
+     */
     SUBSCRIBER_IDENTIFIER(
             "1B",
             "Identifiant du souscripteur du contrat",
             TEXT,
             0
     ),
+    /**
+     * ID : 1C
+     */
     CONTRACT_EFFECTIVE_DATE(
             "1C",
             "Date d’effet du contrat",
@@ -190,6 +264,9 @@ public enum DataType {
             8,
             8
     ),
+    /**
+     * ID : 1D
+     */
     INVOICE_AMOUNT_INCLUDING_TAX(
             "1D",
             "Montant TTC de la facture",
@@ -197,6 +274,9 @@ public enum DataType {
             0,
             16
     ),
+    /**
+     * ID : 1E
+     */
     BENEFICIARY_PHONE_NUMBER(
             "1E",
             "Numéro de téléphone du bénéficiaire de la prestation",
@@ -204,6 +284,9 @@ public enum DataType {
             0,
             30
     ),
+    /**
+     * ID : 1F
+     */
     INVOICE_RECIPIENT_PHONE_NUMBER(
             "1F",
             "Numéro de téléphone du destinataire de la facture",
@@ -211,6 +294,9 @@ public enum DataType {
             0,
             30
     ),
+    /**
+     * ID : 1G
+     */
     UNMENTIONED_CO_BENEFICIARY_PRESENCE(
             "1G",
             "Présence d’un co-bénéficiaire de la prestation non mentionné dans le code",
@@ -218,6 +304,9 @@ public enum DataType {
             0,
             1
     ),
+    /**
+     * ID : 1H
+     */
     UNMENTIONED_CO_INVOICE_RECIPIENT_PRESENCE(
             "1H",
             "Présence d’un co-destinataire de la facture non mentionné dans le code",
@@ -225,6 +314,9 @@ public enum DataType {
             0,
             1
     ),
+    /**
+     * ID : 1I
+     */
     CO_BENEFICIARY_RECIPIENT_ADDRESS_LINE_1(
             "1I",
             "Ligne 1 de la norme adresse postale du co-bénéficiaire de la prestation",
@@ -232,6 +324,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 1J
+     */
     CO_BENEFICIARY_QUALITY_AND_OR_TITLE(
             "1J",
             "Qualité et/ou titre du co-bénéficiaire de la prestation",
@@ -239,6 +334,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 1K
+     */
     CO_BENEFICIARY_FIRSTNAME(
             "1K",
             "Prénom du co-bénéficiaire de la prestation",
@@ -246,6 +344,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 1K
+     */
     CO_BENEFICIARY_LASTNAME(
             "1L",
             "Nom du co-bénéficiaire de la prestation",
@@ -253,6 +354,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 1M
+     */
     CO_INVOICE_RECIPIENT_ADDRESS_LINE_1(
             "1M",
             "Ligne 1 de la norme adresse postale du co-destinataire de la facture",
@@ -260,6 +364,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 1N
+     */
     CO_INVOICE_RECIPIENT_QUALITY_AND_OR_TITLE(
             "1N",
             "Qualité et/ou titre du co-destinataire de la facture",
@@ -267,6 +374,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 1O
+     */
     CO_INVOICE_RECIPIENT_FIRSTNAME(
             "1O",
             "Prénom du co-destinataire de la facture",
@@ -274,6 +384,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 1P
+     */
     CO_INVOICE_RECIPIENT_LASTNAME(
             "1P",
             "Nom du co-destinataire de la facture",
@@ -281,6 +394,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 20
+     */
     BENEFIT_SERVICE_POINT_ADDRESS_LINE_2(
             "20",
             "Ligne 2 de la norme adresse postale du point de service des prestations",
@@ -288,6 +404,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 21
+     */
     BENEFIT_SERVICE_POINT_ADDRESS_LINE_3(
             "21",
             "Ligne 3 de la norme adresse postale du point de service des prestations",
@@ -295,6 +414,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 22
+     */
     BENEFIT_SERVICE_POINT_ADDRESS_LINE_4(
             "22",
             "Ligne 4 de la norme adresse postale du point de service des prestations",
@@ -302,6 +424,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 23
+     */
     BENEFIT_SERVICE_POINT_ADDRESS_LINE_5(
             "23",
             "Ligne 5 de la norme adresse postale du point de service des prestations",
@@ -309,6 +434,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 24
+     */
     BENEFIT_SERVICE_POINT_POSTAL_OR_CEDEX_CODE(
             "24",
             "Code postal ou code cedex du point de service des prestations",
@@ -316,6 +444,9 @@ public enum DataType {
             5,
             5
     ),
+    /**
+     * ID : 25
+     */
     BENEFIT_SERVICE_POINT_LOCALITY_OR_CEDEX_LABEL(
             "25",
             "Localité de destination ou libellé cedex du point de service des prestations",
@@ -323,6 +454,9 @@ public enum DataType {
             0,
             32
     ),
+    /**
+     * ID : 26
+     */
     BENEFIT_SERVICE_POINT_COUNTRY(
             "26",
             "Pays de service des prestations",
@@ -330,6 +464,9 @@ public enum DataType {
             2,
             2
     ),
+    /**
+     * ID : 27
+     */
     INVOICE_RECIPIENT_ADDRESS_LINE_2(
             "27",
             "Ligne 2 de la norme adresse postale du destinataire de la facture",
@@ -337,6 +474,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 28
+     */
     INVOICE_RECIPIENT_ADDRESS_LINE_3(
             "28",
             "Ligne 3 de la norme adresse postale du destinataire de la facture",
@@ -344,6 +484,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 29
+     */
     INVOICE_RECIPIENT_ADDRESS_LINE_4(
             "29",
             "Ligne 4 de la norme adresse postale du destinataire de la facture",
@@ -351,6 +494,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 2A
+     */
     INVOICE_RECIPIENT_ADDRESS_LINE_5(
             "2A",
             "Ligne 5 de la norme adresse postale du destinataire de la facture",
@@ -358,6 +504,9 @@ public enum DataType {
             0,
             38
     ),
+    /**
+     * ID : 2B
+     */
     INVOICE_RECIPIENT_POSTAL_OR_CEDEX_CODE(
             "2B",
             "Code postal ou code cedex du destinataire de la facture",
@@ -365,6 +514,9 @@ public enum DataType {
             5,
             5
     ),
+    /**
+     * ID : 2C
+     */
     INVOICE_RECIPIENT_LOCALITY_OR_CEDEX_LABEL(
             "2C",
             "Localité de destination ou libellé cedex du destinataire de la facture",
@@ -372,6 +524,9 @@ public enum DataType {
             0,
             32
     ),
+    /**
+     * ID : 2D
+     */
     INVOICE_RECIPIENT_COUNTRY(
             "2D",
             "Pays du destinataire de la facture",
@@ -429,7 +584,7 @@ public enum DataType {
     /**
      * Boolean indicating if the data has a max length, meaning that the data is unlimited in length or not
      * <p>
-     * TRUE when {@link DataType#maxLength} == -1
+     * TRUE when {@link DataType#maxLength} != -1
      * <p>
      * FALSE otherwise
      */
@@ -462,14 +617,27 @@ public enum DataType {
     }
 
     /**
+     * Cache for the complementary data list
+     */
+    private static final List<DataType> COMPLEMENTARY_DATA;
+
+    static {
+        COMPLEMENTARY_DATA = stream(values())
+                .filter(dataType -> dataType.getId().startsWith("0"))
+                .collect(toList());
+    }
+
+    /**
      * Returns the "complementary data" types, those with an ID starting by "O"
      *
      * @return the list of "complementary data" types
      */
     static List<DataType> getComplementaryDataTypes() {
-        return stream(values())
-                .filter(dataType -> dataType.getId().startsWith("0"))
-                .collect(toList());
+        return COMPLEMENTARY_DATA;
     }
 
+    @Override
+    public String toString() {
+        return format("'%s - %s'", id, name());
+    }
 }

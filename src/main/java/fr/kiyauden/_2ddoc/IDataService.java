@@ -1,7 +1,5 @@
 package fr.kiyauden._2ddoc;
 
-import java.util.List;
-
 /**
  * Service whose job is to extract data from the 2D-DOC
  */
@@ -16,7 +14,7 @@ interface IDataService {
      * @return the list for data extracted
      * @throws DataExtractionException when an error occurs while extracting data
      */
-    List<Data> extractData(final String data, final Document document, final DataSource source)
+    ExtractedData extractData(final String data, final Document document, final DataSource source)
             throws DataExtractionException;
 
 }
