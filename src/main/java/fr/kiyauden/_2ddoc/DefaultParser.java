@@ -1,7 +1,9 @@
 package fr.kiyauden._2ddoc;
 
+import com.google.inject.Inject;
 import fr.kiyauden._2ddoc.Parsed2DDoc.Parsed2DDocBuilder;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.security.cert.X509Certificate;
 import java.util.ArrayList;
@@ -11,12 +13,12 @@ import static fr.kiyauden._2ddoc.Constants.GS;
 import static fr.kiyauden._2ddoc.Constants.US;
 import static fr.kiyauden._2ddoc.DataSource.ANNEX;
 import static fr.kiyauden._2ddoc.DataSource.MESSAGE;
-import static java.util.Collections.unmodifiableList;
 
 /**
  * Implementation of {@link Parser}
  */
-@RequiredArgsConstructor
+@Slf4j
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
 class DefaultParser implements Parser {
 
     private final IHeaderService headerService;
@@ -48,10 +50,16 @@ class DefaultParser implements Parser {
 
         final String messageSegment = input.substring(headerLength, signatureStart - 1);
 
-        // Data extraction
         final List<Data> data;
+
+        // Data extraction
+        final List<DataType> missingMandatoryDataFromMessage;
         try {
-            data = new ArrayList<>(dataService.extractData(messageSegment, header.getDocumentType(), MESSAGE));
+            final ExtractedData extractedDataFromMessage = dataService.extractData(messageSegment,
+                                                                                   header.getDocumentType(),
+                                                                                   MESSAGE);
+            data = new ArrayList<>(extractedDataFromMessage.getData());
+            missingMandatoryDataFromMessage = extractedDataFromMessage.getMissingMandatoryData();
         } catch (final DataExtractionException e) {
             throw new ParsingException(e);
         }
@@ -61,7 +69,10 @@ class DefaultParser implements Parser {
         if (annexStart > -1) {
             final String annexSegment = input.substring(annexStart + 1);
             try {
-                data.addAll(dataService.extractData(annexSegment, header.getDocumentType(), ANNEX));
+                final ExtractedData extractedDataFromAnnex = dataService.extractData(annexSegment,
+                                                                                     header.getDocumentType(),
+                                                                                     ANNEX);
+                data.addAll(extractedDataFromAnnex.getData());
             } catch (final DataExtractionException e) {
                 throw new ParsingException(e);
             }
@@ -81,11 +92,30 @@ class DefaultParser implements Parser {
         }
 
         builder.header(header);
-        builder.data(unmodifiableList(data));
         builder.signatureStatus(signatureStatus);
         builder.raw(input);
 
+        // No mandatory data check on annex
+        builder.extractedData(new ExtractedData(data, missingMandatoryDataFromMessage));
+
+        builder.valid(computeValidity(signatureStatus, missingMandatoryDataFromMessage));
+
         return builder.build();
+    }
+
+    private boolean computeValidity(final SignatureStatus signatureStatus,
+                                    final List<DataType> missingMandatoryDataFromMessage) {
+        final boolean signatureValid = signatureStatus.isValid();
+        final boolean hasNoMissingData = missingMandatoryDataFromMessage.isEmpty();
+
+        if (!signatureValid) {
+            log.debug("The signature is invalid, 2D-DOC will be set to invalid");
+        }
+        if (!hasNoMissingData) {
+            log.debug("The 2D-DOC has missing data, will be set to invalid");
+        }
+
+        return signatureValid && hasNoMissingData;
     }
 
 }

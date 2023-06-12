@@ -1,5 +1,7 @@
 package fr.kiyauden._2ddoc;
 
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.EnumMap;
@@ -13,6 +15,7 @@ import static java.util.stream.Collectors.toMap;
  * Implementation of {@link IParserService}
  */
 @Slf4j
+@Singleton
 class ParserService implements IParserService {
 
     /**
@@ -20,6 +23,7 @@ class ParserService implements IParserService {
      */
     private final Map<DataFormat, DataParser<?>> dataFormatParserMap;
 
+    @Inject
     ParserService(final Set<DataParser<?>> dataParsers) {
         // Initialises the dataFormatParserMap
         dataFormatParserMap = dataParsers.stream()

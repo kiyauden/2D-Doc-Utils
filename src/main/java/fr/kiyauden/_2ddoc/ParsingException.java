@@ -3,7 +3,7 @@ package fr.kiyauden._2ddoc;
 /**
  * Exception when an error occurs unexpectedly while parsing a data
  */
-class ParsingException extends Exception {
+public class ParsingException extends Exception {
     ParsingException(final String message) {
         super(message);
     }

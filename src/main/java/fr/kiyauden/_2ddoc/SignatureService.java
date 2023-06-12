@@ -1,5 +1,6 @@
 package fr.kiyauden._2ddoc;
 
+import com.google.inject.Singleton;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base32;
 import org.bouncycastle.jcajce.provider.asymmetric.ec.SignatureSpi;
@@ -27,6 +28,7 @@ import static java.security.Signature.getInstance;
  * Implementation of {@link ISignatureService}
  */
 @Slf4j
+@Singleton
 public class SignatureService implements ISignatureService {
 
     /**

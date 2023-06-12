@@ -1,5 +1,6 @@
 package fr.kiyauden._2ddoc;
 
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
@@ -12,9 +13,23 @@ import java.util.stream.Collectors;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isEmpty;
 import static com.github.npathai.hamcrestopt.OptionalMatchers.isPresentAndIs;
 import static fr.kiyauden._2ddoc.DataType.BENEFICIARY_ADDRESS_LINE_1;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_ASSOCIATION_DATE_WITH_2DDOC;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_CATEGORY;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_EXPIRY_DATE;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_NUMBER_OF_PAGES;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_SUB_CATEGORY;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_UNIQUE_ID;
+import static fr.kiyauden._2ddoc.DataType.DOCUMENT_URL;
+import static fr.kiyauden._2ddoc.DataType.EDITOR_OF_2DDOC;
 import static fr.kiyauden._2ddoc.DataType.INVOICE_NUMBER;
+import static fr.kiyauden._2ddoc.DataType.INVOICE_RECIPIENT_COUNTRY;
+import static fr.kiyauden._2ddoc.DataType.ISSUING_APPLICATION;
+import static fr.kiyauden._2ddoc.DataType.ISSUING_APPLICATION_VERSION;
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -38,7 +53,7 @@ class DataTypeTest {
     @Test
     void testIsFixedLength() {
         assertFalse(BENEFICIARY_ADDRESS_LINE_1.isFixedLength());
-        // TODO : Add assert true when a fixed length data will be added
+        assertTrue(INVOICE_RECIPIENT_COUNTRY.isFixedLength());
     }
 
     @Test
@@ -57,6 +72,27 @@ class DataTypeTest {
     void findById_whenDataWithIdDoesNotExists_shouldReturnEmptyOptional() {
         final Optional<DataType> dataType = DataType.findById("EE");
         assertThat(dataType, isEmpty());
+    }
+
+    @Test
+    void getComplementaryDataTypes_ShouldReturnAll() {
+        final List<DataType> expectedDataTypes = asList(
+                DOCUMENT_UNIQUE_ID,
+                DOCUMENT_CATEGORY,
+                DOCUMENT_SUB_CATEGORY,
+                ISSUING_APPLICATION,
+                ISSUING_APPLICATION_VERSION,
+                DOCUMENT_ASSOCIATION_DATE_WITH_2DDOC,
+                DOCUMENT_ASSOCIATION_TIME_WITH_2DDOC,
+                DOCUMENT_EXPIRY_DATE,
+                DOCUMENT_NUMBER_OF_PAGES,
+                EDITOR_OF_2DDOC,
+                DOCUMENT_URL
+        );
+
+        final List<DataType> actualDataTypes = DataType.getComplementaryDataTypes();
+        assertEquals(expectedDataTypes.size(), actualDataTypes.size());
+        assertThat(expectedDataTypes, Matchers.containsInAnyOrder(actualDataTypes.toArray()));
     }
 
 }

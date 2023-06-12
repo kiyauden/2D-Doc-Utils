@@ -11,11 +11,12 @@ import java.time.Month;
 
 import static fr.kiyauden._2ddoc.DataSource.ANNEX;
 import static fr.kiyauden._2ddoc.DataSource.MESSAGE;
-import static fr.kiyauden._2ddoc.Document.DOCUMENT_01;
+import static fr.kiyauden._2ddoc.Document.DOC_01;
 import static fr.kiyauden._2ddoc.Header.ofVersion04;
 import static fr.kiyauden._2ddoc.SignatureStatus.VALID;
 import static java.util.Collections.emptyList;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
@@ -80,10 +81,10 @@ class DefaultParserTest {
         final String input = "DC04FR0AXT4A0E840E8A0101FR26FR247500010MME/NATACHA/SPECIMEN\u001D221 RUE DE LA RUE\u001D1812345678910112\u001D02FACTURE FNB\u001D03GP\u001D1D9,99\u001D19575645792\u001D07195113\u001FGJOZJCU2HBPFIQEJ2IHWPQOQTGURB6LCELPXCH3LVS574NM27UTYRHUIMZWEDFJQVVKIAGWIIF72IV6YFNZTUGYTBXSQO2LOOV6BEMY";
 
         final Header header = ofVersion04("FR0A", "AXT4", date, date,
-                                          DOCUMENT_01, "01", "FR");
+                                          DOC_01, "01", "FR");
         when(headerService.parseHeader(input)).thenReturn(header);
 
-        when(dataService.extractData(anyString(), eq(DOCUMENT_01), any())).thenThrow(DataExtractionException.class);
+        when(dataService.extractData(anyString(), eq(DOC_01), any())).thenThrow(DataExtractionException.class);
 
         assertThrows(ParsingException.class,
                      () -> parser.parse(input, emptyList())
@@ -98,10 +99,11 @@ class DefaultParserTest {
         final String input = "DC04FR0AXT4A0E840E8A0101FR26FR247500010MME/NATACHA/SPECIMEN\u001D221 RUE DE LA RUE\u001D1812345678910112\u001D02FACTURE FNB\u001D03GP\u001D1D9,99\u001D19575645792\u001D07195113\u001FGJOZJCU2HBPFIQEJ2IHWPQOQTGURB6LCELPXCH3LVS574NM27UTYRHUIMZWEDFJQVVKIAGWIIF72IV6YFNZTUGYTBXSQO2LOOV6BEMY";
 
         final Header header = ofVersion04("FR0A", "AXT4", date, date,
-                                          DOCUMENT_01, "01", "FR");
+                                          DOC_01, "01", "FR");
         when(headerService.parseHeader(input)).thenReturn(header);
 
-        when(dataService.extractData(anyString(), eq(DOCUMENT_01), any())).thenReturn(emptyList());
+        when(dataService.extractData(anyString(), eq(DOC_01), any())).thenReturn(
+                new ExtractedData(emptyList(), emptyList()));
 
         when(signatureService.verifySignature(any(), any(), any(), any(), any())).thenThrow(
                 SignatureVerificationException.class);
@@ -123,19 +125,22 @@ class DefaultParserTest {
         final String annex = "221 RUE DE LA RUE\u001D02FACTURE FNB\u001D";
 
         final Header header = ofVersion04("FR0A", "AXT4", date, date,
-                                          DOCUMENT_01, "01", "FR");
+                                          DOC_01, "01", "FR");
         when(headerService.parseHeader(input)).thenReturn(header);
-        when(dataService.extractData(anyString(), eq(DOCUMENT_01), any())).thenReturn(emptyList());
+        when(dataService.extractData(anyString(), eq(DOC_01), any())).thenReturn(
+                new ExtractedData(emptyList(), emptyList()));
         when(signatureService.verifySignature(any(), any(), any(), any(), any())).thenReturn(VALID);
 
-        parser.parse(input, emptyList());
+        final Parsed2DDoc parsed2DDoc = parser.parse(input, emptyList());
 
         verify(headerService, times(1)).parseHeader(input);
-        verify(dataService, times(1)).extractData(message, DOCUMENT_01, MESSAGE);
-        verify(dataService, times(1)).extractData(annex, DOCUMENT_01, ANNEX);
+        verify(dataService, times(1)).extractData(message, DOC_01, MESSAGE);
+        verify(dataService, times(1)).extractData(annex, DOC_01, ANNEX);
         verify(signatureService, times(1)).verifySignature(headerString + message, signature,
                                                            header.getCertificationAuthorityId(),
                                                            header.getCertificateId(), emptyList());
+
+        assertTrue(parsed2DDoc.isValid());
     }
 
 }

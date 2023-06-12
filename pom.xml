@@ -6,7 +6,7 @@
 
     <groupId>fr.kiyauden</groupId>
     <artifactId>2ddoc-utils</artifactId>
-    <version>0.0.5-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
 
     <name>2D-Doc Utils</name>
 
@@ -21,6 +21,7 @@
         <slf4j-api.version>2.0.6</slf4j-api.version>
         <commons-codec.version>1.15</commons-codec.version>
         <bouncycastle.version>1.70</bouncycastle.version>
+        <guice.version>5.1.0</guice.version>
 
         <!-- Test -->
         <junit-jupiter.version>5.9.2</junit-jupiter.version>
@@ -53,6 +54,12 @@
             <artifactId>bcprov-jdk15on</artifactId>
             <version>${bouncycastle.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.google.inject</groupId>
+            <artifactId>guice</artifactId>
+            <version>${guice.version}</version>
+        </dependency>
+
 
         <!-- Test dependencies -->
         <dependency>
@@ -94,6 +101,16 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <!-- Folder used for the project files -->
+                    <exclude>project/**</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

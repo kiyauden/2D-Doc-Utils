@@ -1,5 +1,8 @@
 package fr.kiyauden._2ddoc;
 
+import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -10,14 +13,14 @@ import java.util.Optional;
 import static fr.kiyauden._2ddoc.Constants.GS;
 import static fr.kiyauden._2ddoc.Constants.RS;
 import static java.lang.String.format;
-import static java.util.Optional.empty;
-import static java.util.Optional.ofNullable;
+import static java.util.stream.Collectors.toList;
 
 /**
  * Implementation of {@link IDataService}
  */
 @Slf4j
-@RequiredArgsConstructor
+@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@Singleton
 class DataService implements IDataService {
 
     private final IParserService parserService;
@@ -27,7 +30,7 @@ class DataService implements IDataService {
      * {@inheritDoc}
      */
     @Override
-    public List<Data> extractData(final String data, final Document document, final DataSource source)
+    public ExtractedData extractData(final String data, final Document document, final DataSource source)
             throws DataExtractionException {
         log.debug("Parsing data {} from {} for document {}", data, source, document);
         final ArrayList<Data> dataList = new ArrayList<>();
@@ -44,6 +47,7 @@ class DataService implements IDataService {
             log.trace("Identifier parsed as {}", dataTypeOptional);
 
             if (!dataTypeOptional.isPresent()) {
+                // TODO: 12/06/2023 Peut être ignorer cette donnée au lieu de lancer une exception
                 throw new DataExtractionException(format("Malformed data, identifier %s found", dataIdentifier));
             }
             final DataType dataType = dataTypeOptional.get();
@@ -168,7 +172,16 @@ class DataService implements IDataService {
             }
         }
 
-        return dataList;
+        // Calculate missing data
+        if (!source.equals(DataSource.ANNEX)) {
+            final List<DataType> collect = dataList.stream()
+                    .map(Data::getDataType)
+                    .collect(toList());
+
+            return new ExtractedData(dataList, documentService.computeMissingData(document, collect));
+        }
+
+        return new ExtractedData(dataList, ImmutableList.of());
     }
 
     private void addData(final ArrayList<Data> data, final String value, final Document document,
@@ -178,20 +191,21 @@ class DataService implements IDataService {
                 .dataType(dataType)
                 .source(source)
                 .value(parseValue(value, dataType))
+                .stringValue(value)
                 .truncated(truncated)
                 .mandatory(documentService.isDataMandatory(document, dataType))
                 .build();
         data.add(build);
     }
 
-    private Optional<Object> parseValue(final String value, final DataType dataType) throws DataExtractionException {
+    private Object parseValue(final String value, final DataType dataType) throws DataExtractionException {
         if (value == null || value.length() == 0) {
-            return empty();
+            return null;
         }
         try {
-            return ofNullable(parserService.parse(value, dataType.getType()));
+            return parserService.parse(value, dataType.getType());
         } catch (final ParsingException e) {
-            throw new DataExtractionException(format("Parsing of data %s with value %s failed", value, dataType), e);
+            throw new DataExtractionException(format("Parsing of data %s with value %s failed", dataType, value), e);
         }
     }
 

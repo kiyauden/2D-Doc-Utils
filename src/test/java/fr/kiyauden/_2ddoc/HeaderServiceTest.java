@@ -8,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
 
-import static fr.kiyauden._2ddoc.Document.DOCUMENT_01;
+import static fr.kiyauden._2ddoc.Document.DOC_01;
 import static fr.kiyauden._2ddoc.Header.ofVersion02;
 import static fr.kiyauden._2ddoc.Header.ofVersion03;
 import static fr.kiyauden._2ddoc.Header.ofVersion04;
@@ -48,7 +48,7 @@ class HeaderServiceTest {
                 "XT4A",
                 DATE,
                 DATE,
-                DOCUMENT_01
+                DOC_01
         );
 
         final Header actualHeader = headerService.parseHeader(headerString);
@@ -67,7 +67,7 @@ class HeaderServiceTest {
                 "XT4A",
                 DATE,
                 DATE,
-                DOCUMENT_01,
+                DOC_01,
                 "01"
         );
 
@@ -94,7 +94,7 @@ class HeaderServiceTest {
                 "XT4A",
                 DATE,
                 DATE,
-                DOCUMENT_01,
+                DOC_01,
                 "01",
                 "FR"
         );

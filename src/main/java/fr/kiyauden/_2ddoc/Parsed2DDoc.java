@@ -3,7 +3,7 @@ package fr.kiyauden._2ddoc;
 import lombok.Builder;
 import lombok.Value;
 
-import java.util.List;
+import java.util.Optional;
 
 import static lombok.AccessLevel.PACKAGE;
 
@@ -21,7 +21,7 @@ public class Parsed2DDoc {
     /**
      * The data extracted from the 2D-DOC
      */
-    List<Data> data;
+    ExtractedData extractedData;
     /**
      * The status of the signature
      */
@@ -31,4 +31,31 @@ public class Parsed2DDoc {
      */
     String raw;
 
+    /**
+     * Valid if signature valid and no missing data
+     */
+    boolean valid;
+
+    /**
+     * Find a data if it exits
+     *
+     * @param type the data type to find
+     * @return an optional containing the data
+     */
+    public Optional<Data> findData(final DataType type) {
+        return extractedData.getData()
+                .stream()
+                .filter(data -> data.getDataType().equals(type))
+                .findFirst();
+    }
+
+    /**
+     * Gets the value for a data
+     *
+     * @param type the data type to find
+     * @return an optional containing the value object
+     */
+    public Optional<Object> getValueForData(final DataType type) {
+        return findData(type).flatMap(Data::getValue);
+    }
 }
